@@ -18,7 +18,7 @@ clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing................................................................PHP"
 echo "-----------------------------------------------------------------------------"
-apt-get install php5 libapache2-mod-php5 php5-cli php5-mysql php5-pgsql php-pear php5-dev php5-sqlite
+apt-get install apache2 php5 libapache2-mod-php5 php5-cli php5-mysql php5-pgsql php-pear php5-dev php5-sqlite
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing.....................................................SQLite/SQLite3"
