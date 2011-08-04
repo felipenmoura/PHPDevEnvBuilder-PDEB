@@ -1,0 +1,8 @@
+You should run it as it follows:
+  sudo sh ./PDEB.sh
+
+Then, just answer the questions.
+The last step would be setting the permissions to your server, like this:
+sudo chmod 777 -R /var/www
+
+well...the 777 is up to you ;)
