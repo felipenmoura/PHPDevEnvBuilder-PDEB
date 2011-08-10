@@ -1,8 +1,11 @@
+Script original by Felipe N. Moura (@felipenmoura), adapted to run on OpenSUSE distro
+by Cauan Cabral (@cauancabral).
+
 You should run it as it follows:
   sudo sh ./PDEB.sh
 
 Then, just answer the questions.
 The last step would be setting the permissions to your server, like this:
-sudo chmod 777 -R /var/www
+sudo chmod 777 -R /srv/www/htdocs
 
 well...the 777 is up to you ;)
