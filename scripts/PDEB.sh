@@ -3,60 +3,64 @@ clear
 echo "-----------------------------------------------------------------------------"
 echo "Updating the installer"
 echo "-----------------------------------------------------------------------------"
-apt-get update
+zypper refresh
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing..............................................................MySQL"
 echo "-----------------------------------------------------------------------------"
-apt-get install mysql-server mysql-client
+zypper in -l --recommends mysql-community-server mysql-community-server-client
+echo "Configuring.............................................................MySQL"
+/etc/init.d/mysql start
+/usr/bin/mysql_secure_installation
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing...........................................................Postgres"
 echo "-----------------------------------------------------------------------------"
-apt-get install postgresql
+zypper in -l --recommends postgresql postgresql-server
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing................................................................PHP"
 echo "-----------------------------------------------------------------------------"
-apt-get install apache2 php5 libapache2-mod-php5 php5-cli php5-mysql php5-pgsql php-pear php5-dev php5-sqlite
+zypper in -l --recommends apache2-mod_php5 php5 php5-devel php5-mysql php5-pgsql php-pear php5-sqlite php5-phar php5-bcmath php5-curl php5-gd php5-mcrypt
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing.....................................................SQLite/SQLite3"
 echo "-----------------------------------------------------------------------------"
-apt-get install libsqlite3-0 libsqlite3-dev
-cd ~
-wget http://pecl.php.net/get/sqlite3-0.6.tgz
-tar -zxf sqlite3-0.6.tgz
-cd sqlite3-0.6/
-phpize
-./configure
-make
-make install
-echo extension=sqlite3.so >> /etc/php5/conf.d/sqlite3.ini
+zypper in -l --recommends sqlite3 sqlite3-devel
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing.............................................................XDebug"
 echo "-----------------------------------------------------------------------------"
+zypper in -l --recommends gcc gcc-c++ make
+pecl update-channels
 pecl install xdebug
-src=`find / -name 'xdebug.so' 2> /dev/null`
-echo zend_extension=\"$src\" >> /etc/php/apache2/php.ini
-/etc/init.d/apache2 restart
+src=`find /usr/ -name 'xdebug.so' 2> /dev/null`
+echo zend_extension_ts=\"$src\" >> /etc/php5/conf.d/xdebug.ini
+echo zend_extension=\"$src\" >> /etc/php5/conf.d/xdebug.ini
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing............................................................PHPUnit"
 echo "-----------------------------------------------------------------------------"
 pear channel-discover pear.phpunit.de
-pear install phpunit/PHPUnit
+pear channel-discover pear.symfony-project.com
+pear channel-discover components.ez.no
+pear upgrade pear
+pear config-set preferred_state beta
+pear install --alldeps phpunit/PHPUnit
+pear config-set preferred_state stable
 clear
 echo "-----------------------------------------------------------------------------"
 echo "Installing........................................................GIT and SVN"
 echo "-----------------------------------------------------------------------------"
-apt-get install git git-core
-apt-get install subversion
+zypper in -l git git-core subversion
+clear
+echo "-----------------------------------------------------------------------------"
+echo "Restarting Apache............................................................"
+echo "-----------------------------------------------------------------------------"
+/etc/init.d/apache2 restart
 clear
 echo "-----------------------------------------------------------------------------"
 echo "  FINISHED                                        I hope everything wentok :)"
 echo "If you got doubts, suggestions or want to report a bug or idea, just email-me"
-echo "felipenmoura@gmail.com"
+echo "cauanc@gmail.com"
 echo "-----------------------------------------------------------------------------"
-#apt-get install netbeans
